@@ -19,12 +19,14 @@ jobs:
         DB_USER: ${{ secrets.DB_USER }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: |
+        docker compose up -d
+        sleep 10
         curl -L -o flyway.tar.gz https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/10.17.0/flyway-commandline-10.17.0-linux-x64.tar.gz
         tar -xzf flyway.tar.gz
         ./flyway-10.17.0/flyway \
-          -url="jdbc:postgresql://localhost:5432/store" \
-          -user="new_user" \
-          -password="userpass" \
+          -url="jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}" \
+          -user="${DB_USER}" \
+          -password="${DB_PASSWORD}" \
           -locations="filesystem:./migrations" \
           migrate
 
