@@ -11,6 +11,22 @@ jobs:
       uses: actions/checkout@v2
 
     #### Добавьте шаг с Flyway-миграциями
+    - name: Flyway migration step
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: |
+        sudo apt update
+        sudo apt install flyway -y
+        flyway \
+          -url="jdbc:postgresql://localhost:5432/store" \
+          -user="new_user" \
+          -password="userpass" \
+          -locations="filesystem:./migrations" \
+          migrate
 
     ### Этот шаг оставьте без изменений
     - name: Download and setup autotests binaries
