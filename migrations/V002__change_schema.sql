@@ -1,0 +1,26 @@
+ALTER TABLE product
+ADD COLUMN price double precision;
+
+UPDATE product p
+SET price = pi.price
+FROM product_info pi
+WHERE pi.product_id = p.id;
+
+ALTER TABLE orders
+ADD COLUMN date_created date;
+
+UPDATE orders o
+SET date_created = od.date_created
+FROM orders_date od
+WHERE od.order_id = o.id;
+
+ALTER TABLE order_product
+ADD CONSTRAINT fk_order
+FOREIGN KEY (order_id) REFERENCES orders(id);
+
+ALTER TABLE order_product
+ADD CONSTRAINT fk_product
+FOREIGN KEY (product_id) REFERENCES product(id);
+
+DROP TABLE product_info;
+DROP TABLE orders_date;
