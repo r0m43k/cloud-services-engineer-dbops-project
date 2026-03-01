@@ -19,8 +19,6 @@ jobs:
         DB_USER: ${{ secrets.DB_USER }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: |
-        sudo apt update
-        sudo apt install flyway -y
         flyway \
           -url="jdbc:postgresql://localhost:5432/store" \
           -user="new_user" \
